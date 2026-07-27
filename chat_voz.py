@@ -1,10 +1,6 @@
-"""
-Fase 2: Chat con Jarvis donde TÚ hablas (Whisper transcribe) y él te
-responde por texto todavía (la voz de salida llega en la Fase 3).
-"""
-
 import requests
 from grabar_y_transcribir import escuchar
+from tts import hablar
 
 OLLAMA_URL = "http://localhost:11434/api/chat"
 MODEL = "llama3.2"
@@ -28,8 +24,9 @@ def chat_voz():
             print("No te he oído bien, prueba otra vez.\n")
             continue
 
-        if mensaje.lower().strip(".,!¡¿? ") in ("salir", "exit", "quit"):
+        if mensaje.lower().strip(".,!¡¿? ") in ("salir","salid", "exit", "quit"):
             print("Jarvis: Hasta luego.")
+            hablar("Hasta luego.")
             break
 
         historial.append({"role": "user", "content": mensaje})
@@ -53,6 +50,7 @@ def chat_voz():
             continue
 
         print(f"Jarvis: {texto}\n")
+        hablar(texto)
         historial.append({"role": "assistant", "content": texto})
 
 
